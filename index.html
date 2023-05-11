@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="assets/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Busca Endereço</title>
+  </head>
+  <body>
+    <div class="box">
+      <h1>Busca Endereço</h1>
+      <label for="zipcode">Digite um CEP</label>
+      <input id="zipcode" type="number" placeholder="Exemplo: 12345-67" />
+      <button onclick="getAdress()">BUSCAR</button>
+      <p id="avenue"></p>
+      <p id="city"></p>
+    </div>
+  </body>
+  <script>
+    function getAdress() {
+      const CEP = document.getElementById("zipcode").value;
+      const url = `https://viacep.com.br/ws/${CEP}/json`;
+      const xhttp = new XMLHttpRequest();
+
+      xhttp.open("GET", url, false);
+      xhttp.send();
+
+      const resp = JSON.parse(xhttp.responseText);
+      const comp = resp.complemento ? `, ${resp.complemento}` : "";
+
+      document.getElementById(
+        "avenue"
+      ).innerHTML = `${resp.logradouro}, ${resp.bairro}${comp}`;
+      document.getElementById(
+        "city"
+      ).innerHTML = `${resp.localidade} - ${resp.uf}`;
+    }
+  </script>
+</html>
